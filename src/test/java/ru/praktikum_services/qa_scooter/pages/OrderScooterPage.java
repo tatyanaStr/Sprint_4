@@ -1,15 +1,15 @@
-package ya.samokatPageObj;
+package ru.praktikum_services.qa_scooter.pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class OrderSamokatPage {
+public class OrderScooterPage {
 
     private WebDriver driver;
 
     //Заголовок главной страницы
-    private By headerMainPage = By.xpath("//div[contains(text(), \"Самокат\")]");
+    private By headerMainPage = By.xpath("//div[contains(text(), 'Самокат')]");
 
     // Кнопка Заказать в хэдере
     private By orderFormHeaderButton = By.xpath(".//div[contains(@class, 'Header')]//button[contains(text(), 'Заказать')]");
@@ -56,7 +56,7 @@ public class OrderSamokatPage {
                 .until(ExpectedConditions.visibilityOfElementLocated(headerMainPage));
     }
 
-    public OrderSamokatPage(WebDriver driver) {
+    public OrderScooterPage(WebDriver driver) {
         this.driver = driver;
     }
 
@@ -84,6 +84,7 @@ public class OrderSamokatPage {
     public void openOrderFormBody() {
         driver.findElement(orderFormBodyButton).click();
     }
+
 
     public void fillFirstNameField(String firstName) {
         driver.findElement(firstNameField).sendKeys(firstName);
@@ -154,4 +155,40 @@ public class OrderSamokatPage {
         return driver.findElement(popupOrderHeader).getText();
     }
 
+    public void clickOrderButtonFromHeader(){
+        waitForLoadPage();
+        openOrderFormHeader();
+
+    }
+
+    public void clickOrderButtonFromBody(){
+        waitForLoadPage();
+        scrollToElement();
+        openOrderFormBody();
+    }
+
+    public void fillFirstPageOrderForm(String firstName, String secondName, String adress, String phoneNumber){
+        waitForLoadFirstOrderPage();
+        fillFirstNameField(firstName);
+        fillSecondNameField(secondName);
+        fillAdressField(adress);
+        fillMetroField();
+        fillPhoneNumberField(phoneNumber);
+    }
+
+    public void fillSecondPageOrderForm(String date){
+        waitForLoadSecondOrderPage();
+        fillDatepicker(date);
+        selectDuration();
+    }
+
+    public void makeOrder(){
+        waitForButtonClickable();
+        clickOrderButton();
+    }
+    public void confirmOrder(){
+        waitForOpenConfirmPopup();
+        clickConfirmButton();
+        waitForOpenOrderPopup();
+    }
 }

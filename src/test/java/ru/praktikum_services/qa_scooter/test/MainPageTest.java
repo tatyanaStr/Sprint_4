@@ -1,4 +1,4 @@
-package ya.test;
+package ru.praktikum_services.qa_scooter.test;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
@@ -8,8 +8,8 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ya.samokatPageObj.HomeSamokatPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import ru.praktikum_services.qa_scooter.pages.HomeScooterPage;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
@@ -22,7 +22,6 @@ public class MainPageTest {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
     }
-
 
     private final String QUESTION;
     private final String ANSWER;
@@ -52,15 +51,15 @@ public class MainPageTest {
         //driver = new ChromeDriver();
         driver.get("https://qa-scooter.praktikum-services.ru/");
 
-        HomeSamokatPage samokatPage = new HomeSamokatPage(driver);
-        samokatPage.waitForLoadPage();
-        samokatPage.scrollToElement(0);
+        HomeScooterPage scooterPage = new HomeScooterPage(driver);
+        scooterPage.waitForLoadPage();
+        scooterPage.scrollToElement(0);
         String answerActual = null;
         for (int i = 0; i <= 7; i++) {
-            var questionActual = samokatPage.getAccordionQuestion(i);
+            var questionActual = scooterPage.getAccordionQuestion(i);
             if (questionActual.equals(QUESTION)) {
 
-                answerActual = samokatPage.getAccordionAnswer(i);
+                answerActual = scooterPage.getAccordionAnswer(i);
                 break;
             }
 

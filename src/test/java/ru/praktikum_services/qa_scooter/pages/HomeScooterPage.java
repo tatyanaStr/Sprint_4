@@ -1,4 +1,4 @@
-package ya.samokatPageObj;
+package ru.praktikum_services.qa_scooter.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -7,7 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HomeSamokatPage {
+public class HomeScooterPage {
 
     private WebDriver driver;
 
@@ -26,7 +26,7 @@ public class HomeSamokatPage {
     // Заголовок главной страницы
     private By headerMainPage = By.xpath("//div[contains(text(), 'Самокат')]");
 
-    public HomeSamokatPage(WebDriver driver) {
+    public HomeScooterPage(WebDriver driver) {
         this.driver = driver;
     }
 

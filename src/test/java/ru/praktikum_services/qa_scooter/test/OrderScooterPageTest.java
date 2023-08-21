@@ -1,4 +1,4 @@
-package ya.test;
+package ru.praktikum_services.qa_scooter.test;
 
 import org.hamcrest.MatcherAssert;
 import org.junit.After;
@@ -8,13 +8,13 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import ya.samokatPageObj.OrderSamokatPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import ru.praktikum_services.qa_scooter.pages.OrderScooterPage;
 
 import static org.hamcrest.CoreMatchers.containsString;
 
 @RunWith(Parameterized.class)
-public class OrderSamokatPageTest {
+public class OrderScooterPageTest {
     WebDriver driver;
 
     @Before
@@ -29,7 +29,7 @@ public class OrderSamokatPageTest {
     private final String PHONE_NUMBER;
     private final String DATEPICKER;
 
-    public OrderSamokatPageTest(String firstName, String secondName, String adress, String phoneNumber, String datepicker) {
+    public OrderScooterPageTest(String firstName, String secondName, String adress, String phoneNumber, String datepicker) {
         this.FIRST_NAME = firstName;
         this.SECOND_NAME = secondName;
         this.ADRESS = adress;
@@ -51,24 +51,13 @@ public class OrderSamokatPageTest {
     public void checkOrderFromHeaderButton(){
         driver.get("https://qa-scooter.praktikum-services.ru/");
 
-        OrderSamokatPage orderPage = new OrderSamokatPage(driver);
-        orderPage.waitForLoadPage();
-        orderPage.openOrderFormHeader();
-        orderPage.waitForLoadFirstOrderPage();
-        orderPage.fillFirstNameField(FIRST_NAME);
-        orderPage.fillSecondNameField(SECOND_NAME);
-        orderPage.fillAdressField(ADRESS);
-        orderPage.fillMetroField();
-        orderPage.fillPhoneNumberField(PHONE_NUMBER);
+        OrderScooterPage orderPage = new OrderScooterPage(driver);
+        orderPage.clickOrderButtonFromHeader();
+        orderPage.fillFirstPageOrderForm(FIRST_NAME, SECOND_NAME, ADRESS, PHONE_NUMBER);
         orderPage.clickNextButton();
-        orderPage.waitForLoadSecondOrderPage();
-        orderPage.fillDatepicker(DATEPICKER);
-        orderPage.selectDuration();
-        orderPage.waitForButtonClickable();
-        orderPage.clickOrderButton();
-        orderPage.waitForOpenConfirmPopup();
-        orderPage.clickConfirmButton();
-        orderPage.waitForOpenOrderPopup();
+        orderPage.fillSecondPageOrderForm(DATEPICKER);
+        orderPage.makeOrder();
+        orderPage.confirmOrder();
 
 
         MatcherAssert.assertThat(orderPage.getPopupHeader(), containsString("Заказ оформлен"));
@@ -78,25 +67,13 @@ public class OrderSamokatPageTest {
     public void checkOrderFromBodyButton(){
         driver.get("https://qa-scooter.praktikum-services.ru/");
 
-        OrderSamokatPage orderPage = new OrderSamokatPage(driver);
-        orderPage.waitForLoadPage();
-        orderPage.scrollToElement();
-        orderPage.openOrderFormBody();
-        orderPage.waitForLoadFirstOrderPage();
-        orderPage.fillFirstNameField(FIRST_NAME);
-        orderPage.fillSecondNameField(SECOND_NAME);
-        orderPage.fillAdressField(ADRESS);
-        orderPage.fillMetroField();
-        orderPage.fillPhoneNumberField(PHONE_NUMBER);
+        OrderScooterPage orderPage = new OrderScooterPage(driver);
+        orderPage.clickOrderButtonFromBody();
+        orderPage.fillFirstPageOrderForm(FIRST_NAME, SECOND_NAME, ADRESS, PHONE_NUMBER);
         orderPage.clickNextButton();
-        orderPage.waitForLoadSecondOrderPage();
-        orderPage.fillDatepicker(DATEPICKER);
-        orderPage.selectDuration();
-        orderPage.waitForButtonClickable();
-        orderPage.clickOrderButton();
-        orderPage.waitForOpenConfirmPopup();
-        orderPage.clickConfirmButton();
-        orderPage.waitForOpenOrderPopup();
+        orderPage.fillSecondPageOrderForm(DATEPICKER);
+        orderPage.makeOrder();
+        orderPage.confirmOrder();
 
 
         MatcherAssert.assertThat("Ошибка: заказ не был оформлен", orderPage.getPopupHeader(), containsString("Заказ оформлен"));
